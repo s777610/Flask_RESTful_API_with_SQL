@@ -6,7 +6,7 @@ class StoreModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    # items is a list if don't using lazy='dynamic'
+    # items is a list of item object(waste), if don't using lazy='dynamic'
     # items is a query builder if using lazy='dynamic'
     items = db.relationship('ItemModel', lazy='dynamic')
 
@@ -14,6 +14,7 @@ class StoreModel(db.Model):
         self.name = name
 
     def json(self):
+        # using all() to retrieve all items from that store table
         return {'name': self.name, 'items': [item.json() for item in self.items.all()]}
 
     @classmethod

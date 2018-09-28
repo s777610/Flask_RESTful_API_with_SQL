@@ -5,6 +5,7 @@ from flask_jwt import JWT
 from security import authenticate, identity
 from resources.user import UserRegister
 from resources.item import Item, ItemList
+from resources.store import Store, StoreList
 
 app = Flask(__name__)
 # tell app where db could be found
@@ -28,10 +29,11 @@ jwt create new endpoint /auth
 # after user login, every endpoint return JWT token
 jwt = JWT(app, authenticate, identity)
 
-
+api.add_resource(Store, '/store/<string:name>')
 # http://127.0.0.1:5000/item/<name>
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
+api.add_resource(StoreList, '/stores')
 api.add_resource(UserRegister, '/register')
 
 if __name__ == '__main__':

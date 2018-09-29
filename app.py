@@ -14,10 +14,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'wilson'
 api = Api(app)
 
-# create db and all table before request, unless they exist already
-@app.before_first_request
-def create_tables():
-    db.create_all()
+
 
 
 """

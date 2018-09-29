@@ -1,7 +1,5 @@
-# This file may be used to create an environment using:
-# $ conda create --name <env> --file <this file>
-# platform: osx-64
-
-flask=1.0.2=py37_1
-flask-restful=0.3.6=py_1
-flask-sqlalchemy=2.3.2=py_0
+Flask
+Flask-RESTful
+Flask-JWT
+Flask-SQLAlchemy
+uwsgi

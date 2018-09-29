@@ -8,9 +8,10 @@ The easy way to test the API is using Postman to make http requests.
 URL of API: https://wei-restful-api.herokuapp.com/
 
 ## HTTP methods
-This API provide GET, POST, PUT, DELETE requests.
+This API provide GET, POST, PUT, DELETE requests.  
 
-1. POST request
+
+1. POST request  
 First of all, clients can register by making POST request.
 ```
 https://wei-restful-api.herokuapp.com/register
@@ -28,7 +29,7 @@ After registering, it allow clients to login by making POST request
 ```
 https://wei-restful-api.herokuapp.com/auth
 ```
-The body of request should be json format.
+The body of request should be json format.  
 For example,
 ```
 {
@@ -61,7 +62,7 @@ The post request should contain
 }
 ```
 
-5. GET request
+2. GET request  
 Clients can retrieve all items in the system by making GET request.
 ```
 https://wei-restful-api.herokuapp.com/items
@@ -83,7 +84,7 @@ Likewise, all stores could be retrieved by GET request.
 https://wei-restful-api.herokuapp.com/stores
 ```
 
-7. DELETE request
+3. DELETE request  
 Stores and items could be delete by making DELETE requests.
 However, all items should be deleted before deleting stores because items have foreign which refer to primary key of store table.
 ```
@@ -91,7 +92,7 @@ https://wei-restful-api.herokuapp.com/store/<store_name>
 https://wei-restful-api.herokuapp.com/item/<item_name>
 ```
 
-8. PUT request
+4. PUT request  
 Finally, items could be create if not exist by making PUT requests.
 In addition, PUT requests could update items if items already exist.
 ```

@@ -13,6 +13,7 @@ app = Flask(__name__)
 # tell app where db could be found
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # is first not found, use sqlite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'wilson'
 api = Api(app)
 

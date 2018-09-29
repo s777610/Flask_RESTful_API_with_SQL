@@ -115,3 +115,7 @@ company_blog/data.sqlite
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+.DS_Store
+__pycache__/
+*.pyc

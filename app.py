@@ -1,18 +1,21 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
 from resources.user import UserRegister, User, UserLogin, TokenRefresh
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
+from blacklist import BLACKLIST
 
 app = Flask(__name__)
 # tell app where db could be found
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # is first not found, use sqlite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True# return specific error that flask-jwt told you
+app.config['JWT_BLACKLIST_ENABLED'] = True
+app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 app.secret_key = 'wilson'
 api = Api(app)
 
@@ -22,12 +25,6 @@ def create_tables():
     db.create_all()
 
 
-"""
-when user login, jwt will be generated
-jwt is long access_token,
-used for identify user
-jwt create new endpoint /auth
-"""
 
 jwt = JWTManager(app)
 
@@ -40,6 +37,13 @@ def add_claims_to_jwt(identity): # identify is user.id in this case
     if identity == 1:
         return {'is_admin': True}
     return {'is_admin': False}
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    # this identity is in JWT, in this case user.id
+    # if user.id in BLACKLIST, return True in order to block that user
+    # go down to revoked_token_callback to block users
+    return decrypted_token['identity'] in BLACKLIST
 
 
 """if token expired"""
@@ -67,14 +71,14 @@ def missing_token_callback(error):
     }), 401
 
 @jwt.needs_fresh_token_loader
-def token_not_fresh_callback(error):
+def token_not_fresh_callback():
     return jsonify({
         'description': 'The token is not fresh.',
         'error': 'fresh_token_required'
     }), 401
 
 @jwt.revoked_token_loader
-def revoked_token_callback(error):
+def revoked_token_callback():
     return jsonify({
         'description': 'The token has been revoked.',
         'error': 'token_revoked'

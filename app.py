@@ -19,10 +19,11 @@ app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 app.secret_key = 'wilson'
 api = Api(app)
 
+# if run locally
 # create db and all table before request, unless they exist already
-@app.before_first_request
-def create_tables():
-    db.create_all()
+# @app.before_first_request
+# def create_tables():
+#     db.create_all()
 
 
 

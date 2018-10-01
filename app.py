@@ -4,7 +4,7 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 
-from resources.user import UserRegister, User, UserLogin, TokenRefresh
+from resources.user import UserRegister, User, UserLogin, UserLogout, TokenRefresh
 from resources.item import Item, ItemList
 from resources.store import Store, StoreList
 from blacklist import BLACKLIST
@@ -40,10 +40,10 @@ def add_claims_to_jwt(identity): # identify is user.id in this case
 
 @jwt.token_in_blacklist_loader
 def check_if_token_in_blacklist(decrypted_token):
-    # this identity is in JWT, in this case user.id
-    # if user.id in BLACKLIST, return True in order to block that user
-    # go down to revoked_token_callback to block users
-    return decrypted_token['identity'] in BLACKLIST
+    # block this jti when user logout
+    # if jti of user in BLACKLIST, return True in order to block that user
+    # go down to revoked_token_callback to block(logout) users
+    return decrypted_token['jti'] in BLACKLIST
 
 
 """if token expired"""
@@ -92,6 +92,7 @@ api.add_resource(StoreList, '/stores')
 api.add_resource(UserRegister, '/register')
 api.add_resource(User, '/user/<int:user_id>')
 api.add_resource(UserLogin, '/login')
+api.add_resource(UserLogout, '/logout')
 api.add_resource(TokenRefresh, '/refresh')
 
 if __name__ == '__main__':

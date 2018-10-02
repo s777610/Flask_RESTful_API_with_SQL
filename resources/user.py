@@ -63,7 +63,7 @@ class User(Resource):
             user.delete_from_db()
             return {'message': 'User deleted.'}, 200
         else:
-            {'message': 'Authorization required'}, 401
+            return {'message': 'Authorization required'}, 401
 
 
 class UserLogin(Resource):

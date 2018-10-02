@@ -52,13 +52,18 @@ class User(Resource):
         return user.json()
 
     @classmethod
-    @jwt_refresh_token_required
+    @jwt_optional
     def delete(cls, user_id):
-        user = UserModel.find_by_id(user_id)
-        if not user:
-            return {'message': 'User not found'}, 404
-        user.delete_from_db()
-        return {'message': 'User deleted.'}, 200
+        userid = get_jwt_identity()
+        if userid == user_id:
+            user = UserModel.find_by_id(user_id)
+            # if not user:
+            #     return {'message': 'User not found'}, 404
+            user.delete_from_db()
+            return {'message': 'User deleted.'}, 200
+        else:
+            {'message': 'Authorization required'}, 401
+
 
 class UserLogin(Resource):
     @classmethod

@@ -52,6 +52,7 @@ class User(Resource):
         return user.json()
 
     @classmethod
+    @jwt_refresh_token_required
     def delete(cls, user_id):
         user = UserModel.find_by_id(user_id)
         if not user:
@@ -61,7 +62,6 @@ class User(Resource):
 
 class UserLogin(Resource):
     @classmethod
-    @jwt_refresh_token_required
     def post(cls):
         # get data from parser
         data = _user_parser.parse_args()

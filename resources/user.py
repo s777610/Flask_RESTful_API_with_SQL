@@ -61,6 +61,7 @@ class User(Resource):
 
 class UserLogin(Resource):
     @classmethod
+    @jwt_refresh_token_required
     def post(cls):
         # get data from parser
         data = _user_parser.parse_args()

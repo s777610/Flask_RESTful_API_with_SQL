@@ -7,7 +7,8 @@ from flask_jwt_extended import (
     jwt_refresh_token_required,
     get_jwt_identity,
     jwt_required,
-    get_raw_jwt
+    get_raw_jwt,
+    jwt_optional
     )
 from models.user import UserModel
 from blacklist import BLACKLIST

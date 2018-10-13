@@ -13,7 +13,7 @@ app = Flask(__name__)
 # tell app where db could be found
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # is first not found, use sqlite
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['PROPAGATE_EXCEPTIONS'] = True# return specific error that flask-jwt told you
+app.config['PROPAGATE_EXCEPTIONS'] = True # return specific error that flask-jwt told you
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 app.secret_key = 'wilson'
@@ -86,7 +86,6 @@ def revoked_token_callback():
     }), 401
 
 api.add_resource(Store, '/store/<string:name>')
-# http://127.0.0.1:5000/item/<name>
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
 api.add_resource(StoreList, '/stores')

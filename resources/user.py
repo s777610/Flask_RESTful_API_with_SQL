@@ -58,8 +58,6 @@ class User(Resource):
         userid = get_jwt_identity()
         if userid == user_id:
             user = UserModel.find_by_id(user_id)
-            # if not user:
-            #     return {'message': 'User not found'}, 404
             user.delete_from_db()
             return {'message': 'User deleted.'}, 200
         else:
@@ -86,9 +84,7 @@ class UserLogin(Resource):
                 'refresh_token': refresh_token
             }, 200
         return {'message': 'Invlid credentials'}, 401
-        # create access token
-        # create refresh token
-        # return them
+
 
 class UserLogout(Resource):
     @jwt_required

@@ -6,8 +6,15 @@ class StoreModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    # items is a list of item object(waste), if don't using lazy='dynamic'
-    # items is a query builder if using lazy='dynamic'
+    """SQLAlchemy is smart enough to be able to construct a many-to-one relationship 
+    from this. Every item has a store_id property, 
+    so the items property of the StoreModel becomes a list of those items.
+    Or at least, it would if we remove lazy="dynamic".
+    With lazy="dynamic", items becomes a SQLAlchemy query, 
+    so whenever we want to access the items in the store we have to do something like this:
+    store.items.all(), .all() is the key part here, and only needed when lazy="dynamic
+    If we take away lazy="dynamic", then the items are loaded from the database 
+    as soon as the StoreModel object is created."""
     items = db.relationship('ItemModel', lazy='dynamic')
 
     def __init__(self, name):

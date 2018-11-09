@@ -89,7 +89,9 @@ class UserLogin(Resource):
 class UserLogout(Resource):
     @jwt_required
     def post(self):
-        jti = get_raw_jwt()['jti'] # jti is a unique id for a jwt
+        # This uses the get_raw_jwt(), function of Flask-JWT-Extended. 
+        # It gives us a dictionary of the various properties stored inside the decoded JWT.
+        jti = get_raw_jwt()['jti'] # jti is a unique id for a JWT(not for the user!)
         BLACKLIST.add(jti)
         return {'message': 'Successfully logged out.'}, 200
 

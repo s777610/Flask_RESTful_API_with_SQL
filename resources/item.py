@@ -10,6 +10,7 @@ from flask_jwt_extended import (
 from models.item import ItemModel
 
 class Item(Resource):
+    # it goes into the body of the request and extracts the data.
     parser = reqparse.RequestParser() # data is in body of request
     parser.add_argument('price',
         type=float,
@@ -72,6 +73,7 @@ class ItemList(Resource):
         # this give us whatever we save in the access token as identity
         user_id = get_jwt_identity()
         items = [item.json() for item in ItemModel.find_all()]
+        # If the user is logged out, they get to see item names only. If they are logged in, they get to see the full item JSON
         if user_id: # check if users login
             return {'item': items}, 200
         return {'items': [item['name'] for item in items],

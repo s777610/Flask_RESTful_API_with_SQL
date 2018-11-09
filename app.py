@@ -31,8 +31,7 @@ jwt = JWTManager(app)
 
 """
 whenever we create a new access token(JWT),
-we are going to run this func to see if we should add any extra data to JWT
-"""
+we are going to run this func to see if we should add any extra data to JWT"""
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity): # identify is user.id in this case
     if identity == 1:
@@ -47,7 +46,9 @@ def check_if_token_in_blacklist(decrypted_token):
     return decrypted_token['jti'] in BLACKLIST
 
 
-"""if token expired"""
+"""
+if token has expired but the user still 
+tried to use it to gain access to a resource"""
 @jwt.expired_token_loader
 def expired_token_callback():
     return jsonify({
@@ -71,6 +72,7 @@ def missing_token_callback(error):
         'error': 'authorization_required'
     }), 401
 
+# when a fresh token is required but a non-fresh token is given to us 
 @jwt.needs_fresh_token_loader
 def token_not_fresh_callback():
     return jsonify({
@@ -78,6 +80,7 @@ def token_not_fresh_callback():
         'error': 'fresh_token_required'
     }), 401
 
+# when a token is used but it has been blacklisted.
 @jwt.revoked_token_loader
 def revoked_token_callback():
     return jsonify({
@@ -85,6 +88,7 @@ def revoked_token_callback():
         'error': 'token_revoked'
     }), 401
 
+# Register our resources, Registering the resources is where we define the URLs for them
 api.add_resource(Store, '/store/<string:name>')
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(ItemList, '/items')
@@ -97,5 +101,5 @@ api.add_resource(TokenRefresh, '/refresh')
 
 if __name__ == '__main__':
     from db import db
-    db.init_app(app)
+    db.init_app(app) # register our database with our app
     app.run(port=5000, debug=True)

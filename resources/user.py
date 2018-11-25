@@ -103,4 +103,4 @@ class TokenRefresh(Resource):
         # that means we can use it to get jwt_identity
         current_user = get_jwt_identity() # user.id in this case
         new_token = create_access_token(identity=current_user, fresh=False)
-        return {'access_token': new_token}, 200
+        return {'access_token': new_token}, 200 #non-fash

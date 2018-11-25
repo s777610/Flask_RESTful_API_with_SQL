@@ -5,7 +5,8 @@ Then, deployed on Heroku.
 
 ## Feel free to test the Api
 The easy way to test the API is using Postman to make http requests.
-URL of API: https://wei-restful-api.herokuapp.com/
+URL of documentation: https://documenter.getpostman.com/view/4215311/RzfZQtLb
+Dom
 
 ## HTTP methods
 This API provide GET, POST, PUT, DELETE requests.  
